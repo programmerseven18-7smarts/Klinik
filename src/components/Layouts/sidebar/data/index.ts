@@ -2,102 +2,121 @@ import * as Icons from "../icons";
 
 export const NAV_DATA = [
   {
-    label: "MAIN MENU",
+    label: "UTAMA",
     items: [
       {
         title: "Dashboard",
+        url: "/",
         icon: Icons.HomeIcon,
-        items: [
-          {
-            title: "eCommerce",
-            url: "/",
-          },
-        ],
+        items: [],
       },
+    ],
+  },
+  {
+    label: "JADWAL & ANTREAN",
+    items: [
       {
-        title: "Calendar",
-        url: "/calendar",
+        title: "Jadwal & Antrean",
         icon: Icons.Calendar,
-        items: [],
-      },
-      {
-        title: "Profile",
-        url: "/profile",
-        icon: Icons.User,
-        items: [],
-      },
-      {
-        title: "Forms",
-        icon: Icons.Alphabet,
         items: [
-          {
-            title: "Form Elements",
-            url: "/forms/form-elements",
-          },
-          {
-            title: "Form Layout",
-            url: "/forms/form-layout",
-          },
-        ],
-      },
-      {
-        title: "Tables",
-        url: "/tables",
-        icon: Icons.Table,
-        items: [
-          {
-            title: "Tables",
-            url: "/tables",
-          },
-        ],
-      },
-      {
-        title: "Pages",
-        icon: Icons.Alphabet,
-        items: [
-          {
-            title: "Settings",
-            url: "/pages/settings",
-          },
+          { title: "Jadwal Pasien", url: "/jadwal/pasien" },
+          { title: "Jadwal Dokter", url: "/jadwal/dokter" },
+          { title: "Antrean Pasien", url: "/jadwal/antrean" },
+          { title: "Follow Up Kontrol", url: "/jadwal/follow-up" },
         ],
       },
     ],
   },
   {
-    label: "OTHERS",
+    label: "PASIEN",
     items: [
       {
-        title: "Charts",
+        title: "Pasien",
+        icon: Icons.User,
+        items: [
+          { title: "Data Pasien", url: "/pasien/data" },
+          { title: "Riwayat Pasien", url: "/pasien/riwayat" },
+          { title: "File Pasien", url: "/pasien/file" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "PEMERIKSAAN",
+    items: [
+      {
+        title: "Pemeriksaan",
+        icon: Icons.Table,
+        items: [
+          { title: "Kunjungan Pasien", url: "/pemeriksaan/kunjungan" },
+          { title: "Rekam Medis", url: "/pemeriksaan/rekam-medis" },
+          { title: "Resep Obat", url: "/pemeriksaan/resep" },
+          { title: "Tindakan Medis", url: "/pemeriksaan/tindakan" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "FARMASI",
+    items: [
+      {
+        title: "Farmasi",
         icon: Icons.PieChart,
         items: [
-          {
-            title: "Basic Chart",
-            url: "/charts/basic-chart",
-          },
+          { title: "Data Obat", url: "/farmasi/obat" },
+          { title: "Stok Masuk", url: "/farmasi/stok-masuk" },
+          { title: "Stok Keluar", url: "/farmasi/stok-keluar" },
+          { title: "Mutasi Stok", url: "/farmasi/mutasi" },
+          { title: "Obat Hampir Habis", url: "/farmasi/hampir-habis" },
+          { title: "Obat Mendekati Expired", url: "/farmasi/expired" },
         ],
       },
+    ],
+  },
+  {
+    label: "KEUANGAN",
+    items: [
       {
-        title: "UI Elements",
+        title: "Keuangan",
+        icon: Icons.Alphabet,
+        items: [
+          { title: "Invoice", url: "/keuangan/invoice" },
+          { title: "Pembayaran", url: "/keuangan/pembayaran" },
+          { title: "Kas Masuk/Keluar", url: "/keuangan/kas" },
+          { title: "Piutang Pasien", url: "/keuangan/piutang" },
+          { title: "Pengeluaran Obat", url: "/keuangan/pengeluaran" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "MASTER DATA",
+    items: [
+      {
+        title: "Master Data",
         icon: Icons.FourCircle,
         items: [
-          {
-            title: "Alerts",
-            url: "/ui-elements/alerts",
-          },
-          {
-            title: "Buttons",
-            url: "/ui-elements/buttons",
-          },
+          { title: "Dokter", url: "/master/dokter" },
+          { title: "Poli", url: "/master/poli" },
+          { title: "Tindakan", url: "/master/tindakan" },
+          { title: "Supplier Obat", url: "/master/supplier" },
+          { title: "Metode Pembayaran", url: "/master/metode-bayar" },
         ],
       },
+    ],
+  },
+  {
+    label: "LAPORAN",
+    items: [
       {
-        title: "Authentication",
+        title: "Laporan",
         icon: Icons.Authentication,
         items: [
-          {
-            title: "Sign In",
-            url: "/auth/sign-in",
-          },
+          { title: "Laporan Kunjungan", url: "/laporan/kunjungan" },
+          { title: "Laporan Pasien", url: "/laporan/pasien" },
+          { title: "Laporan Obat", url: "/laporan/obat" },
+          { title: "Laporan Keuangan", url: "/laporan/keuangan" },
+          { title: "Laporan Dokter", url: "/laporan/dokter" },
         ],
       },
     ],

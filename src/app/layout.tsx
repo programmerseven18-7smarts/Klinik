@@ -14,11 +14,11 @@ import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | NextAdmin - Next.js Dashboard Kit",
-    default: "NextAdmin - Next.js Dashboard Kit",
+    template: "%s | MedCare7",
+    default: "MedCare7 — Clinical Management System",
   },
   description:
-    "Next.js admin dashboard toolkit with 200+ templates, UI components, and integrations for fast dashboard development.",
+    "MedCare7 adalah sistem manajemen klinik modern untuk admin, dokter, farmasi, dan keuangan.",
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
@@ -26,12 +26,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          <NextTopLoader color="#5750F1" showSpinner={false} />
+          <NextTopLoader color="#0F766E" showSpinner={false} />
 
           <div className="flex min-h-screen">
             <Sidebar />
 
-            <div className="w-full bg-gray-2 dark:bg-[#020d1a]">
+            <div className="w-full bg-gray-1 dark:bg-[#020d1a]">
               <Header />
 
               <main className="isolate mx-auto w-full max-w-screen-2xl overflow-hidden p-4 md:p-6 2xl:p-10">

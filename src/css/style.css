@@ -4,7 +4,8 @@
 
 @layer base {
   body {
-    @apply bg-gray-2 text-dark-5 dark:bg-[#020D1A] dark:text-dark-6;
+    @apply bg-gray-1 text-dark-5 dark:bg-[#020D1A] dark:text-dark-6;
+    font-family: "Manrope", sans-serif;
   }
 }
 
@@ -224,7 +225,7 @@ span.flatpickr-weekday,
 .flatpickr-day.selected.nextMonthDay,
 .flatpickr-day.startRange.nextMonthDay,
 .flatpickr-day.endRange.nextMonthDay {
-  background: #3c50e0;
+  background: #0F766E;
   @apply !border-primary !bg-primary hover:!border-primary hover:!bg-primary;
 }
 
