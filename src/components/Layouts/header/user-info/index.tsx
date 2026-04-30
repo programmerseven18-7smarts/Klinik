@@ -16,9 +16,9 @@ export function UserInfo() {
   const [isOpen, setIsOpen] = useState(false);
 
   const USER = {
-    name: "John Smith",
-    email: "johnson@nextadmin.com",
-    img: "/images/user/user-03.png",
+    name: "dr. Sifa",
+    email: "admin@medcare7.id",
+    img: "/images/user/user-15.png",
   };
 
   return (
@@ -85,7 +85,7 @@ export function UserInfo() {
           >
             <UserIcon />
 
-            <span className="mr-auto text-base font-medium">View profile</span>
+            <span className="mr-auto text-base font-medium">Profil klinik</span>
           </Link>
 
           <Link
@@ -96,7 +96,7 @@ export function UserInfo() {
             <SettingsIcon />
 
             <span className="mr-auto text-base font-medium">
-              Account Settings
+              Pengaturan akun
             </span>
           </Link>
         </div>
@@ -110,7 +110,7 @@ export function UserInfo() {
           >
             <LogOutIcon />
 
-            <span className="text-base font-medium">Log out</span>
+            <span className="text-base font-medium">Keluar</span>
           </button>
         </div>
       </DropdownContent>

@@ -2,12 +2,12 @@ import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
 const config: Config = {
-  content: ["./src/**/*.{js,jsx,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: ["class"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Satoshi"', ...defaultTheme.fontFamily.sans],
+        sans: ['"Manrope"', ...defaultTheme.fontFamily.sans],
       },
       screens: {
         "2xsm": "375px",
@@ -18,7 +18,7 @@ const config: Config = {
         current: "currentColor",
         transparent: "transparent",
         white: "#FFFFFF",
-        primary: "#5750F1",
+        primary: "#0F766E",
         stroke: "#E6EBF1",
         "stroke-dark": "#27303E",
         dark: {
@@ -69,8 +69,8 @@ const config: Config = {
           },
         },
         blue: {
-          DEFAULT: "#3C50E0",
-          dark: "#1C3FB7",
+          DEFAULT: "#0284C7",
+          dark: "#0369A1",
           light: {
             DEFAULT: "#5475E5",
             2: "#8099EC",

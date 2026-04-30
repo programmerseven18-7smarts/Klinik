@@ -1,7 +1,6 @@
 "use client";
 
 import { SearchIcon } from "@/assets/icons";
-import Image from "next/image";
 import Link from "next/link";
 import { useSidebarContext } from "../sidebar/sidebar-context";
 import { MenuIcon } from "./icons";
@@ -24,28 +23,26 @@ export function Header() {
 
       {isMobile && (
         <Link href={"/"} className="ml-2 max-[430px]:hidden min-[375px]:ml-4">
-          <Image
-            src={"/images/logo/logo-icon.svg"}
-            width={32}
-            height={32}
-            alt=""
-            role="presentation"
-          />
+          <span className="grid size-9 place-items-center rounded-xl bg-primary text-sm font-extrabold text-white">
+            M7
+          </span>
         </Link>
       )}
 
       <div className="max-xl:hidden">
         <h1 className="mb-0.5 text-heading-5 font-bold text-dark dark:text-white">
-          Dashboard
+          Clinical Command Center
         </h1>
-        <p className="font-medium">Next.js Admin Dashboard Solution</p>
+        <p className="font-medium">
+          Jadwal pasien, follow up kontrol, rekam medis, obat, dan finansial
+        </p>
       </div>
 
       <div className="flex flex-1 items-center justify-end gap-2 min-[375px]:gap-4">
         <div className="relative w-full max-w-[300px]">
           <input
             type="search"
-            placeholder="Search"
+            placeholder="Cari pasien, no. RM, dokter..."
             className="flex w-full items-center gap-3.5 rounded-full border bg-gray-2 py-3 pl-[53px] pr-5 outline-none transition-colors focus-visible:border-primary dark:border-dark-3 dark:bg-dark-2 dark:hover:border-dark-4 dark:hover:bg-dark-3 dark:hover:text-dark-6 dark:focus-visible:border-primary"
           />
 

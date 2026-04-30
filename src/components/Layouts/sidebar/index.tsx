@@ -24,12 +24,15 @@ export function Sidebar() {
     // );
   };
 
+  const isMenuPathActive = (url: string) =>
+    pathname === url || pathname.startsWith(`${url}/`);
+
   useEffect(() => {
     // Keep collapsible open, when it's subpage is active
     NAV_DATA.some((section) => {
       return section.items.some((item) => {
         return item.items.some((subItem) => {
-          if (subItem.url === pathname) {
+          if (isMenuPathActive(subItem.url)) {
             if (!expandedItems.includes(item.title)) {
               toggleExpanded(item.title);
             }
@@ -100,8 +103,8 @@ export function Sidebar() {
                         {item.items.length ? (
                           <div>
                             <MenuItem
-                              isActive={item.items.some(
-                                ({ url }) => url === pathname,
+                              isActive={item.items.some(({ url }) =>
+                                isMenuPathActive(url),
                               )}
                               onClick={() => toggleExpanded(item.title)}
                             >
@@ -132,7 +135,7 @@ export function Sidebar() {
                                     <MenuItem
                                       as="link"
                                       href={subItem.url}
-                                      isActive={pathname === subItem.url}
+                                      isActive={isMenuPathActive(subItem.url)}
                                     >
                                       <span>{subItem.title}</span>
                                     </MenuItem>
@@ -154,7 +157,7 @@ export function Sidebar() {
                                 className="flex items-center gap-3 py-3"
                                 as="link"
                                 href={href}
-                                isActive={pathname === href}
+                                isActive={isMenuPathActive(href)}
                               >
                                 <item.icon
                                   className="size-6 shrink-0"
