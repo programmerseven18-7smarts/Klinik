@@ -16,6 +16,14 @@ export const NAV_DATA = [
     label: "OPERASIONAL",
     items: [
       {
+        title: "Antrian",
+        icon: Icons.Calendar,
+        items: [
+          { title: "Ambil Tiket", url: "/antrian/ambil-tiket" },
+          { title: "Layar Antrian", url: "/antrian/layar-antrian" },
+        ],
+      },
+      {
         title: "Jadwal & Antrean",
         icon: Icons.Calendar,
         items: [
@@ -70,6 +78,8 @@ export const NAV_DATA = [
           { title: "Kas Masuk/Keluar", url: "/keuangan/kas" },
           { title: "Piutang Pasien", url: "/keuangan/piutang" },
           { title: "Pengeluaran Obat", url: "/keuangan/pengeluaran-obat" },
+          { title: "Klaim BPJS", url: "/keuangan/klaim-bpjs" },
+          { title: "Penerimaan BPJS", url: "/keuangan/penerimaan-bpjs" },
         ],
       },
     ],

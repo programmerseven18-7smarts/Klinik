@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? mode === "create"
         ? config.createAction || config.primaryAction
         : config.title
-      : "MedCare7",
+      : "7Care",
   };
 }
 

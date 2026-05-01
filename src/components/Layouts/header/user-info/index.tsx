@@ -17,7 +17,7 @@ export function UserInfo() {
 
   const USER = {
     name: "dr. Sifa",
-    email: "admin@medcare7.id",
+    email: "admin@7care.id",
     img: "/images/user/user-15.png",
   };
 
@@ -26,10 +26,10 @@ export function UserInfo() {
       <DropdownTrigger className="rounded align-middle outline-none ring-primary ring-offset-2 focus-visible:ring-1 dark:ring-offset-gray-dark">
         <span className="sr-only">My Account</span>
 
-        <figure className="flex items-center gap-3">
+        <figure className="flex items-center gap-2 sm:gap-3">
           <Image
             src={USER.img}
-            className="size-12"
+            className="size-10 rounded-full object-cover sm:size-12"
             alt={`Avatar of ${USER.name}`}
             role="presentation"
             width={200}

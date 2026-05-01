@@ -176,57 +176,90 @@ export default function Home() {
       </section>
 
       <section className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5">
-        <div className="col-span-12 rounded-[10px] bg-white p-5 shadow-1 dark:bg-gray-dark md:p-7.5 xl:col-span-8">
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div className="col-span-12 rounded-[10px] bg-white shadow-1 dark:bg-gray-dark xl:col-span-8">
+          {/* Header */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stroke px-5 py-5 dark:border-stroke-dark md:px-7.5">
             <div>
               <h2 className="text-body-2xlg font-bold text-dark dark:text-white">
-                Patient Journey Board
+                Alur Kunjungan Pasien
               </h2>
               <p className="mt-1 text-sm font-medium text-dark-6">
                 Alur pasien hari ini dari booking sampai kontrol ulang
               </p>
             </div>
-
-            <button className="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-card hover:bg-teal-800">
-              Tambah Jadwal
-            </button>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#CCFBF1] px-3 py-1 text-xs font-bold text-primary">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                Live
+              </span>
+              <button className="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-card hover:bg-teal-800">
+                Tambah Jadwal
+              </button>
+            </div>
           </div>
 
-          <div className="grid gap-3 lg:grid-cols-3 2xl:grid-cols-6">
+          {/* Pipeline flow */}
+          <div className="px-5 pt-5 md:px-7.5">
+            <div className="flex items-center overflow-x-auto">
+              {journeyColumns.map((col, idx) => {
+                const total = journeyColumns.reduce((s, c) => s + c.count, 0);
+                const pct = Math.round((col.count / total) * 100);
+                return (
+                  <div key={col.title} className="flex min-w-0 flex-1 items-center">
+                    <div className="min-w-0 flex-1 text-center">
+                      <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-black text-white">
+                        {col.count}
+                      </div>
+                      <p className="mt-1 truncate text-xs font-bold text-dark-5 dark:text-dark-6">{col.title}</p>
+                      <p className="text-xs font-semibold text-primary">{pct}%</p>
+                    </div>
+                    {idx < journeyColumns.length - 1 && (
+                      <div className="mx-1 h-px w-4 flex-none bg-stroke dark:bg-stroke-dark" />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-gray-2 dark:bg-dark-2">
+              <div className="h-full w-3/4 rounded-full bg-primary" />
+            </div>
+          </div>
+
+          {/* Kanban columns */}
+          <div className="grid gap-3 p-5 md:p-7.5 lg:grid-cols-3 2xl:grid-cols-6">
             {journeyColumns.map((column) => (
               <div
                 key={column.title}
-                className="rounded-[10px] border border-stroke bg-gray-2 p-3 dark:border-stroke-dark dark:bg-dark-2"
+                className="rounded-xl border border-stroke bg-gray-2 p-3 transition hover:border-primary dark:border-stroke-dark dark:bg-dark-2"
               >
                 <div className="mb-3 flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-dark dark:text-white">
-                    {column.title}
-                  </h3>
-                  <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-primary dark:bg-gray-dark">
+                  <h3 className="text-sm font-black text-dark dark:text-white">{column.title}</h3>
+                  <span className="rounded-full bg-[#CCFBF1] px-2 py-0.5 text-xs font-black text-primary">
                     {column.count}
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  {column.patients.map(([name, rm, time, note]) => (
-                    <div
-                      key={name}
-                      className="rounded-lg bg-white p-3 shadow-card dark:bg-gray-dark"
-                    >
-                      <p className="text-sm font-bold text-dark dark:text-white">
-                        {name}
-                      </p>
-                      <p className="mt-1 text-xs font-medium text-dark-6">
-                        {rm}
-                      </p>
-                      <div className="mt-2 flex items-center justify-between gap-2 text-xs font-semibold">
-                        <span className="text-primary">{time}</span>
-                        <span className="text-dark-5 dark:text-dark-6">
-                          {note}
-                        </span>
+                  {column.patients.map(([name, rm, time, note]) => {
+                    const initials = name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase();
+                    return (
+                      <div key={name} className="rounded-xl bg-white p-3 shadow-card dark:bg-gray-dark">
+                        <div className="flex items-center gap-2">
+                          <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-primary text-xs font-black text-white">
+                            {initials}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-bold text-dark dark:text-white">{name}</p>
+                            <p className="truncate text-xs font-medium text-dark-6">{rm}</p>
+                          </div>
+                        </div>
+                        <div className="mt-2.5 flex items-center justify-between gap-1 border-t border-stroke pt-2 dark:border-stroke-dark">
+                          <span className="text-xs font-semibold text-primary">{time}</span>
+                          <span className="text-xs font-semibold text-dark-5 dark:text-dark-6">{note}</span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -357,7 +390,7 @@ export default function Home() {
           <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
             <div className="rounded-[10px] border border-stroke p-4 dark:border-stroke-dark">
               <h3 className="font-bold text-dark dark:text-white">
-                Medicine Stock Health
+                Kondisi Stok Obat
               </h3>
               <div className="mt-4 space-y-3">
                 {stockAlerts.map(([name, stock, status]) => (
@@ -399,7 +432,7 @@ export default function Home() {
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-body-2xlg font-bold text-dark dark:text-white">
-                Medical Timeline & File Pasien
+                Riwayat Medis & Berkas Pasien
               </h2>
               <p className="mt-1 text-sm font-medium text-dark-6">
                 Ringkasan histori terbaru, resep, file, dan status pembayaran

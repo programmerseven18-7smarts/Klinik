@@ -1,9 +1,12 @@
 export type MedCarePageType =
+  | "queue"
+  | "queue-tv"
   | "schedule"
   | "patient"
   | "exam"
   | "pharmacy"
   | "finance"
+  | "bpjs"
   | "master"
   | "report"
   | "settings";
@@ -53,6 +56,20 @@ const visitRows = [
   ["ANT-017", "Agus Pratama", "dr. Amelia", "Poli Umum", "Booking"],
 ];
 
+const queueRows = [
+  ["A-014", "Siti Rahma", "Online", "Poli Anak", "Dipanggil"],
+  ["A-015", "Budi Santoso", "Offline", "Poli Umum", "Menunggu"],
+  ["B-006", "Rina Kartika", "Online", "Poli Gigi", "Menunggu"],
+  ["C-003", "Agus Pratama", "Offline", "BPJS", "Check-in"],
+];
+
+const patientHistoryRows = [
+  ["30 Apr 2026", "Batuk dan demam", "ISPA ringan, observasi 3 hari", "Paracetamol + Cetirizine", "Kontrol 3 Mei"],
+  ["18 Apr 2026", "Kontrol tekanan darah", "Hipertensi ringan stabil", "Amlodipine 5mg", "Reminder WA terkirim"],
+  ["02 Apr 2026", "Nyeri gigi", "Karies molar kiri", "Ibuprofen + antibiotik", "Selesai"],
+  ["21 Mar 2026", "Keluhan lambung", "Dispepsia, edukasi pola makan", "Omeprazole 20mg", "BPJS"],
+];
+
 const medicineRows = [
   ["OBT-001", "Paracetamol 500mg", "24 strip", "BCH-0426-A", "Menipis"],
   ["OBT-014", "Amoxicillin 500mg", "8 strip", "BCH-0426-B", "Kritis"],
@@ -65,6 +82,20 @@ const financeRows = [
   ["INV-20260430-019", "Siti Rahma", "Tindakan + Resep", "Rp 480.000", "Belum Lunas"],
   ["INV-20260430-020", "Rina Kartika", "Poli Gigi", "Rp 650.000", "Sebagian"],
   ["OUT-20260430-004", "Pembelian Obat", "PT Sehat Farma", "Rp 3.600.000", "Dibayar"],
+];
+
+const bpjsClaimRows = [
+  ["KLM-202604-001", "Siti Rahma", "BPJS Aktif", "Rp 480.000", "Diajukan"],
+  ["KLM-202604-002", "Agus Pratama", "BPJS Aktif", "Rp 325.000", "Diverifikasi"],
+  ["KLM-202604-003", "Nadia Putri", "BPJS Aktif", "Rp 210.000", "Revisi"],
+  ["KLM-202604-004", "Budi Santoso", "BPJS Aktif", "Rp 150.000", "Disetujui"],
+];
+
+const bpjsPaymentRows = [
+  ["PBPJS-202604-001", "Batch April 2026", "12 klaim", "Rp 8.650.000", "Menunggu Transfer"],
+  ["PBPJS-202604-002", "Batch Maret 2026", "18 klaim", "Rp 12.400.000", "Sudah Cair"],
+  ["PBPJS-202604-003", "Non Kapitasi", "4 klaim", "Rp 2.150.000", "Diverifikasi"],
+  ["PBPJS-202604-004", "Selisih Klaim", "2 klaim", "Rp 320.000", "Revisi"],
 ];
 
 const doctorRows = [
@@ -106,14 +137,14 @@ const settingsRows = [
   ["SET-001", "Reminder Kontrol", "Otomasi", "WhatsApp H-1", "Aktif"],
   ["SET-002", "Batas Stok Minimum", "Farmasi", "10 item", "Aktif"],
   ["SET-003", "Nomor Invoice", "Keuangan", "INV-{YYYYMMDD}", "Aktif"],
-  ["SET-004", "Brand Klinik", "Profil", "MedCare7", "Aktif"],
+  ["SET-004", "Brand Klinik", "Profil", "7Care", "Aktif"],
 ];
 
 const reportRows = [
-  ["RPT-001", "Kunjungan Pasien", "30 Apr 2026", "284 data", "Siap Export"],
+  ["RPT-001", "Kunjungan Pasien", "30 Apr 2026", "284 data", "Siap Ekspor"],
   ["RPT-002", "Pendapatan Klinik", "April 2026", "Rp 68,2 jt", "Final"],
   ["RPT-003", "Penggunaan Obat", "April 2026", "1.248 item", "Review"],
-  ["RPT-004", "Performa Dokter", "April 2026", "3 dokter", "Siap Export"],
+  ["RPT-004", "Performa Dokter", "April 2026", "3 dokter", "Siap Ekspor"],
 ];
 
 const baseForm = [
@@ -124,6 +155,46 @@ const baseForm = [
 ];
 
 export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
+  "antrian/ambil-tiket": {
+    path: "antrian/ambil-tiket",
+    title: "Ambil Tiket",
+    eyebrow: "Antrian",
+    description: "Ambil tiket booking online maupun pasien datang langsung, check-in, dan panggil antrean.",
+    type: "queue",
+    primaryAction: "Ambil Tiket",
+    createAction: "Buat Tiket Antrian",
+    rowAction: "route",
+    columns: ["No. Tiket", "Pasien", "Sumber", "Poli", "Status"],
+    rows: queueRows,
+    stats: [
+      { label: "Tiket Hari Ini", value: "64", note: "42 online, 22 offline", tone: stats.teal },
+      { label: "Menunggu", value: "17", note: "Rata-rata 18 menit", tone: stats.amber },
+      { label: "Sudah Dipanggil", value: "39", note: "3 poli aktif", tone: stats.green },
+    ],
+    formSections: [
+      { title: "Identitas Pasien", fields: ["No. RM / NIK", "Nama pasien", "Jenis pasien", "No. BPJS"] },
+      { title: "Tiket", fields: ["Sumber tiket", "Poli tujuan", "Dokter", "Keluhan singkat"] },
+    ],
+  },
+  "antrian/layar-antrian": {
+    path: "antrian/layar-antrian",
+    title: "Layar Antrian",
+    eyebrow: "Antrian TV",
+    description: "Mode layar TV untuk menampilkan nomor antrean sedang dipanggil, poli, dokter, dan antrean berikutnya.",
+    type: "queue-tv",
+    primaryAction: "Mode TV",
+    rowAction: "modal",
+    columns: ["No. Tiket", "Pasien", "Sumber", "Poli", "Status"],
+    rows: queueRows,
+    stats: [
+      { label: "Sedang Dipanggil", value: "A-014", note: "Poli Anak", tone: stats.teal },
+      { label: "Berikutnya", value: "A-015", note: "Poli Umum", tone: stats.sky },
+      { label: "Total Menunggu", value: "17", note: "Semua poli", tone: stats.amber },
+    ],
+    formSections: [
+      { title: "Pengaturan Layar", fields: ["Running text", "Audio panggilan", "Refresh otomatis", "Lokasi TV"] },
+    ],
+  },
   "jadwal-pasien": {
     path: "jadwal-pasien",
     title: "Jadwal Pasien",
@@ -238,33 +309,28 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     path: "pasien/riwayat",
     title: "Riwayat Pasien",
     eyebrow: "Pasien",
-    description: "Medical timeline berisi kunjungan, diagnosa, tindakan, resep, file, dan pembayaran.",
+    description: "Riwayat pasien berisi tanggal kunjungan, keluhan, analisa dokter, obat, dan jadwal kontrol dengan reminder WhatsApp.",
     type: "patient",
     primaryAction: "Buka Timeline",
     createAction: "Tambah Catatan Riwayat",
     rowAction: "route",
-    columns: ["No. RM", "Pasien", "Kunjungan Terakhir", "Ringkasan", "Status"],
-    rows: [
-      ["RM-000178", "Budi Santoso", "30 Apr 2026", "ISPA ringan + resep", "Lunas"],
-      ["RM-000089", "Siti Rahma", "30 Apr 2026", "Demam + kontrol", "Belum Lunas"],
-      ["RM-000221", "Rina Kartika", "29 Apr 2026", "Tambal gigi + foto klinis", "Sebagian"],
-      ["RM-000241", "Agus Pratama", "28 Apr 2026", "Cek tensi", "Lunas"],
-    ],
+    columns: ["Tanggal", "Keluhan", "Analisa Dokter", "Obat", "Kontrol/Pembayaran"],
+    rows: patientHistoryRows,
     stats: [
       { label: "Kunjungan Bulan Ini", value: "284", note: "Semua poli", tone: stats.teal },
       { label: "Resep Tercatat", value: "198", note: "Terhubung farmasi", tone: stats.sky },
-      { label: "File Medis", value: "72", note: "Lab/rujukan/foto", tone: stats.green },
+      { label: "Reminder Kontrol", value: "21", note: "WhatsApp aktif", tone: stats.green },
     ],
     formSections: [
       { title: "Filter Timeline", fields: ["Pasien", "Dokter", "Poli", "Rentang tanggal"] },
-      { title: "Ringkasan Catatan", fields: ["Keluhan", "Diagnosa", "Tindakan", "Status pembayaran"] },
+      { title: "Ringkasan Catatan", fields: ["Tanggal", "Keluhan", "Analisa dokter", "Obat", "Jadwal kontrol"] },
     ],
   },
   "pasien/file": {
     path: "pasien/file",
     title: "File Pasien",
     eyebrow: "Pasien",
-    description: "Patient File Vault untuk hasil lab, surat rujukan, foto klinis, dokumen asuransi, dan surat kontrol.",
+    description: "Penyimpanan berkas pasien untuk hasil lab, surat rujukan, foto klinis, dokumen asuransi, dan surat kontrol.",
     type: "patient",
     primaryAction: "Upload File",
     createAction: "Upload File Pasien",
@@ -337,7 +403,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     path: "pemeriksaan/resep-obat",
     title: "Resep Obat",
     eyebrow: "Pemeriksaan",
-    description: "Prescription Builder untuk obat, dosis, aturan pakai, jumlah, harga, dan warning stok.",
+    description: "Penyusunan resep untuk obat, dosis, aturan pakai, jumlah, harga, dan peringatan stok.",
     type: "exam",
     primaryAction: "Buat Resep",
     createAction: "Buat Resep",
@@ -346,12 +412,12 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     rows: medicineRows,
     stats: [
       { label: "Resep Hari Ini", value: "28", note: "24 ditebus", tone: stats.teal },
-      { label: "Stok Warning", value: "3", note: "Perlu substitusi", tone: stats.red },
+      { label: "Peringatan Stok", value: "3", note: "Perlu substitusi", tone: stats.red },
       { label: "Draft Resep", value: "5", note: "Belum dikonfirmasi", tone: stats.amber },
     ],
     formSections: [
-      { title: "Prescription Builder", fields: ["Pilih obat", "Dosis", "Aturan pakai", "Jumlah", "Catatan resep"] },
-      { title: "Validasi Stok", fields: ["Batch", "Expired date", "Harga", "Warning stok"] },
+      { title: "Rincian Resep", fields: ["Pilih obat", "Dosis", "Aturan pakai", "Jumlah", "Catatan resep"] },
+      { title: "Validasi Stok", fields: ["Batch", "Expired date", "Harga", "Peringatan stok"] },
     ],
   },
   "pemeriksaan/tindakan-medis": {
@@ -444,7 +510,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     eyebrow: "Farmasi",
     description: "Audit mutasi stok obat dari stok masuk, resep, stok keluar, adjustment, dan retur.",
     type: "pharmacy",
-    primaryAction: "Export Mutasi",
+    primaryAction: "Ekspor Mutasi",
     createAction: "Buat Adjustment",
     rowAction: "route",
     columns: ["Kode", "Obat", "Qty", "Batch", "Status"],
@@ -606,6 +672,48 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
       { title: "Pembayaran", fields: ["Metode bayar", "Jatuh tempo", "Status", "Catatan"] },
     ],
   },
+  "keuangan/klaim-bpjs": {
+    path: "keuangan/klaim-bpjs",
+    title: "Klaim BPJS",
+    eyebrow: "Keuangan BPJS",
+    description: "Kelola klaim pelayanan BPJS dari pasien periksa, rekam medis, dokumen klaim, verifikasi, hingga persetujuan.",
+    type: "bpjs",
+    primaryAction: "Ajukan Klaim",
+    createAction: "Buat Klaim BPJS",
+    rowAction: "route",
+    columns: ["No. Klaim", "Pasien", "Status BPJS", "Nominal", "Status Klaim"],
+    rows: bpjsClaimRows,
+    stats: [
+      { label: "Klaim Bulan Ini", value: "36", note: "28 lengkap", tone: stats.teal },
+      { label: "Perlu Revisi", value: "5", note: "Dokumen/diagnosa", tone: stats.amber },
+      { label: "Disetujui", value: "18", note: "Menunggu pembayaran", tone: stats.green },
+    ],
+    formSections: [
+      { title: "Data Peserta", fields: ["No. kartu BPJS", "NIK", "Status kepesertaan", "FKTP"] },
+      { title: "Dokumen Klaim", fields: ["No. kunjungan", "Diagnosa", "Tindakan", "Obat", "Nominal klaim"] },
+    ],
+  },
+  "keuangan/penerimaan-bpjs": {
+    path: "keuangan/penerimaan-bpjs",
+    title: "Penerimaan BPJS",
+    eyebrow: "Keuangan BPJS",
+    description: "Rekonsiliasi dana yang diterima dari BPJS, batch pembayaran, klaim yang cair, selisih, dan posting kas.",
+    type: "bpjs",
+    primaryAction: "Rekonsiliasi BPJS",
+    createAction: "Catat Penerimaan BPJS",
+    rowAction: "route",
+    columns: ["Kode Bayar", "Periode", "Jumlah Klaim", "Nominal", "Status"],
+    rows: bpjsPaymentRows,
+    stats: [
+      { label: "Menunggu Cair", value: "Rp 8,65 jt", note: "12 klaim", tone: stats.amber },
+      { label: "Sudah Cair", value: "Rp 12,4 jt", note: "Maret 2026", tone: stats.green },
+      { label: "Selisih Klaim", value: "Rp 320 rb", note: "Perlu review", tone: stats.red },
+    ],
+    formSections: [
+      { title: "Penerimaan", fields: ["Batch pembayaran", "Tanggal cair", "Nominal diterima", "Akun kas"] },
+      { title: "Rekonsiliasi", fields: ["Klaim disetujui", "Klaim dibayar", "Selisih", "Catatan"] },
+    ],
+  },
   "master/dokter": {
     path: "master/dokter",
     title: "Master Dokter",
@@ -712,7 +820,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     eyebrow: "Laporan",
     description: "Rekap kunjungan pasien berdasarkan tanggal, dokter, poli, status, dan jenis kunjungan.",
     type: "report",
-    primaryAction: "Export Kunjungan",
+    primaryAction: "Ekspor Kunjungan",
     rowAction: "route",
     columns: ["Kode", "Laporan", "Periode", "Data", "Status"],
     rows: reportRows,
@@ -731,7 +839,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     eyebrow: "Laporan",
     description: "Rekap data pasien baru, pasien lama, demografi, dan kunjungan ulang.",
     type: "report",
-    primaryAction: "Export Pasien",
+    primaryAction: "Ekspor Pasien",
     rowAction: "route",
     columns: ["Kode", "Laporan", "Periode", "Data", "Status"],
     rows: reportRows,
@@ -750,7 +858,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     eyebrow: "Laporan",
     description: "Rekap penggunaan obat, stok, batch, expired, dan nilai inventory.",
     type: "report",
-    primaryAction: "Export Obat",
+    primaryAction: "Ekspor Obat",
     rowAction: "route",
     columns: ["Kode", "Laporan", "Periode", "Data", "Status"],
     rows: reportRows,
@@ -769,7 +877,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     eyebrow: "Laporan",
     description: "Rekap pendapatan konsultasi, tindakan, obat, piutang, kas keluar, dan laba kotor.",
     type: "report",
-    primaryAction: "Export Keuangan",
+    primaryAction: "Ekspor Keuangan",
     rowAction: "route",
     columns: ["Kode", "Laporan", "Periode", "Data", "Status"],
     rows: reportRows,
@@ -788,7 +896,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     eyebrow: "Laporan",
     description: "Rekap performa dokter, jumlah kunjungan, tindakan, pendapatan, dan follow up kontrol.",
     type: "report",
-    primaryAction: "Export Dokter",
+    primaryAction: "Ekspor Dokter",
     rowAction: "route",
     columns: ["Kode", "Laporan", "Periode", "Data", "Status"],
     rows: reportRows,
@@ -814,7 +922,7 @@ export const MEDCARE_PAGES: Record<string, MedCareConfig> = {
     stats: [
       { label: "Reminder", value: "Aktif", note: "Follow up kontrol", tone: stats.green },
       { label: "Stok Minimum", value: "Aktif", note: "Farmasi", tone: stats.teal },
-      { label: "Brand", value: "MedCare7", note: "Klinik", tone: stats.sky },
+      { label: "Brand", value: "7Care", note: "Klinik", tone: stats.sky },
     ],
     formSections: [
       { title: "Identitas Klinik", fields: ["Nama klinik", "Alamat", "No. kontak", "Logo"] },
@@ -833,13 +941,13 @@ export const allStaticSlugs = LIST_PATHS.flatMap((path) => {
     return [slug];
   }
 
-  return [slug, [...slug, "create"], [...slug, config.rows[0]?.[0] || "MC7-001"]];
+  return [slug, [...slug, "create"], [...slug, config.rows[0]?.[0] || "7C-001"]];
 });
 
 export const fallbackConfig = {
   ...MEDCARE_PAGES["jadwal-pasien"],
   path: "fallback",
-  title: "MedCare7",
+  title: "7Care",
   eyebrow: "Klinik",
   description: "Halaman belum dikonfigurasi.",
   formSections: baseForm,

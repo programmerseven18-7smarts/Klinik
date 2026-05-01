@@ -1,21 +1,19 @@
 import "@/css/satoshi.css";
 import "@/css/style.css";
 
-import { Sidebar } from "@/components/Layouts/sidebar";
-
 import "flatpickr/dist/flatpickr.min.css";
 import "jsvectormap/dist/jsvectormap.css";
 
-import { Header } from "@/components/Layouts/header";
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import type { PropsWithChildren } from "react";
+import { AppChrome } from "./app-chrome";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | MedCare7",
-    default: "MedCare7 - Klinik Management Dashboard",
+    template: "%s | 7Care",
+    default: "7Care - Klinik Management Dashboard",
   },
   description:
     "Dashboard operasional klinik untuk jadwal pasien, riwayat medis, inventory obat, dan keuangan.",
@@ -23,22 +21,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
       <body>
         <Providers>
           <NextTopLoader color="#0F766E" showSpinner={false} />
-
-          <div className="flex min-h-screen">
-            <Sidebar />
-
-            <div className="w-full bg-gray-2 dark:bg-[#020d1a]">
-              <Header />
-
-              <main className="isolate mx-auto w-full max-w-screen-2xl overflow-hidden p-4 md:p-6 2xl:p-10">
-                {children}
-              </main>
-            </div>
-          </div>
+          <AppChrome>{children}</AppChrome>
         </Providers>
       </body>
     </html>
