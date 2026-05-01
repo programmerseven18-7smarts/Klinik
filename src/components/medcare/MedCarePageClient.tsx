@@ -870,9 +870,11 @@ function ScheduleBoard({ config, onModal }: { config: MedCareConfig; onModal: (t
                   {Array.from({ length: total }).map((_, i) => (
                     <span
                       key={i}
-                      className="h-2 w-2 rounded-full"
+                      className={cx(
+                        "h-2 w-2 rounded-full",
+                        i >= filled && "bg-stroke dark:bg-stroke-dark",
+                      )}
                       style={{ background: i < filled ? color : undefined }}
-                      {...(i >= filled ? { className: "h-2 w-2 rounded-full bg-stroke dark:bg-stroke-dark" } : {})}
                     />
                   ))}
                 </div>
